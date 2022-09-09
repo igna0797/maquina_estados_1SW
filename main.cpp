@@ -191,7 +191,7 @@ void alarmActivationUpdate()
 
 void alarmDeactivationUpdate()
 {
-    if ( numberOfIncorrectCodes < 5 ) {
+    if ( numberOfIncorrectCodes < 50 ) {
         bool enterButtonReleasedEvent = debounceButtonUpdate();
         if( enterButtonReleasedEvent ) {
             if( incorrectCodeLed ) {
@@ -226,6 +226,9 @@ void uartTask()
     char receivedChar = '\0';
     char str[100];
     int stringLength;
+    uartUsb.write("\n Estado boton",13);
+    sprintf(str,"%i",enterButtonState); //@note me da el estado del boton del 0 al 3
+    uartUsb.write(str,1);
     if( uartUsb.readable() ) {
         uartUsb.read( &receivedChar, 1 );
         switch (receivedChar) {
